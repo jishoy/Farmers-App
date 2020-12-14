@@ -1,0 +1,7 @@
+Django==2.2
+django-expiring-token==1.0.2
+djangorestframework==3.9.4
+mysqlclient==2.0.2
+pkg-resources==0.0.0
+pytz==2020.4
+sqlparse==0.4.1
