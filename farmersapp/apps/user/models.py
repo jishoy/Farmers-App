@@ -18,12 +18,11 @@ class User(AbstractUser):
     password = models.CharField(_('password'), max_length=100, blank=True)
 
 
-# class ExpiringToken(Token):
-#
-#     class Meta(object):
-#         proxy = True
-#
-#     def expired(self):
-#
-#         now = timezone.now()
-#         return self.created < now - settings.EXPIRING_TOKEN_LIFESPAN
+class ExpiringToken(Token):
+
+    class Meta(object):
+        proxy = True
+
+    def expired(self):
+        now = timezone.now()
+        return self.created < now - settings.EXPIRING_TOKEN_LIFESPAN
