@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # Custom apps
-    'apps.user'
+    'v1apps.user',
+    'v1apps.farms'
 ]
 
 MIDDLEWARE = [
