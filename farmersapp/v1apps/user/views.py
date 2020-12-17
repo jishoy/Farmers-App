@@ -12,7 +12,7 @@ from .models import ExpiringToken
 
 class UserRegistrationAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = UserRegistrationSerializer
 
     def create(self, request, *args, **kwargs):
@@ -27,7 +27,7 @@ class UserRegistrationAPIView(CreateAPIView):
 
 
 class UserLoginAPIView(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
