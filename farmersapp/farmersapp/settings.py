@@ -27,7 +27,7 @@ SECRET_KEY = 'dreldu-@070#9k^&#_*1#=a97z&#lyvoq)9c79u48t6%#h^(s#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -148,6 +148,6 @@ AUTH_USER_MODEL = 'user.User'
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 EXPIRING_TOKEN_LIFESPAN = datetime.timedelta(hours=8)
