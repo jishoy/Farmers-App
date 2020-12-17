@@ -148,4 +148,6 @@ AUTH_USER_MODEL = 'user.User'
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
 EXPIRING_TOKEN_LIFESPAN = datetime.timedelta(hours=8)
