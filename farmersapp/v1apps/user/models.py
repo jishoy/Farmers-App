@@ -17,6 +17,12 @@ class User(AbstractUser):
     phone = models.CharField(blank=True, max_length=20, unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
 
+    def __str__(self):
+        if self.name:
+            return self.name
+        else:
+            return self.username
+
 
 class ExpiringToken(Token):
 
