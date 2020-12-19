@@ -23,6 +23,11 @@ class User(AbstractUser):
         else:
             return self.username
 
+    def save(self, *args, **kwargs):
+        if self.username == "":
+            self.username = self.phone
+        super(User, self).save(*args, **kwargs)
+
 
 class ExpiringToken(Token):
 
