@@ -1,29 +1,69 @@
 from rest_framework.generics import (
-    GenericAPIView, CreateAPIView
+    GenericAPIView, CreateAPIView, RetrieveUpdateAPIView
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import (
-    UserLoginSerializer, TokenSerializer, UserRegistrationSerializer
+    UserLoginSerializer, TokenSerializer, UserSerializer
 )
 from rest_framework import status
-from .models import ExpiringToken
+from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
+import pyotp
+from rest_framework.response import Response
+from rest_framework.views import APIView
+import base64
+from .models import ExpiringToken, UserOtp, User
 
 
-class UserRegistrationAPIView(CreateAPIView):
+# This class returns the string needed to generate the key
+class generateKey:
+    @staticmethod
+    def returnValue(phone):
+        return str(phone) + str(datetime.date(datetime.now())) + "Some Random Secret Key"
 
+
+class getPhoneNumberRegistered(APIView):
     permission_classes = ()
-    serializer_class = UserRegistrationSerializer
+    # Get to Create a call for OTP
+    @staticmethod
+    def get(request, phone):
+        try:
+            phone = UserOtp.objects.get(phone=phone) #if phone already exists the take this else create New One
+        except ObjectDoesNotExist:
+            UserOtp.objects.create(
+                phone=phone,
+            )
+            phone = UserOtp.objects.get(phone=phone)  # user Newly created Model
+        if phone.isVerified:
+            return Response("Already Registred!")
+        else:
+            phone.counter += 1  # Update Counter At every Call
+            phone.save()  # Save the data
+            keygen = generateKey()
+            key = base64.b32encode(keygen.returnValue(phone).encode())  # Key is generated
+            OTP = pyotp.HOTP(key)  # HOTP Model for OTP is created
+            print(OTP.at(phone.counter))
+            return Response({"OTP": OTP.at(phone.counter)}, status=200)  # Just for now
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        user = serializer.instance
-        user.set_password(request.data['password'])
-        user.save()
-        data = serializer.data
-        return Response(data, status=status.HTTP_201_CREATED)
+    # This Method verifies the OTP
+    @staticmethod
+    def post(request, phone):
+        try:
+            phone = UserOtp.objects.get(phone=phone)
+        except ObjectDoesNotExist:
+            return Response("User does not exist", status=404)  # False Call
+        keygen = generateKey()
+        key = base64.b32encode(keygen.returnValue(phone).encode())  # Generating Key
+        OTP = pyotp.HOTP(key)  # HOTP Model
+        if OTP.verify(request.GET.get('otp'), phone.counter):  # Verifying the OTP
+            phone.isVerified = True
+            User.objects.create(phone=phone.phone)
+            user = User.objects.get(phone=phone)
+            token, _ = ExpiringToken.objects.get_or_create(user=user)
+            phone.save()
+            return Response(str(token), status=200)
+        return Response("OTP is wrong", status=400)
 
 
 class UserLoginAPIView(GenericAPIView):
@@ -35,6 +75,7 @@ class UserLoginAPIView(GenericAPIView):
         if serializer.is_valid():
             user = serializer.user
             token, _ = ExpiringToken.objects.get_or_create(user=user)
+            print(type(user))
             if user:
                 if token.expired():
                     token.delete()
@@ -51,3 +92,23 @@ class UserLoginAPIView(GenericAPIView):
                 data=serializer.errors,
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+
+class UserUpdateView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        queryset = User.objects.get(pk=self.kwargs.get('pk'))
+        return queryset
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        user = serializer.instance
+        user.set_password(request.data['password'])
+        user.save()
+        data = serializer.data
+        return Response(data=data, status=status.HTTP_200_OK)

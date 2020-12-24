@@ -5,25 +5,12 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
-    confirm_password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "name", "password",
-                  "confirm_password", "village", "district", "location", "group_name", "phone",
+        fields = ("id", "name", "password", "village", "district", "location", "group_name", "phone",
                   )
-
-    def create(self, validated_data):
-        del validated_data["confirm_password"]
-        return super(UserRegistrationSerializer, self).create(validated_data)
-
-    def validate(self, attrs):
-        if attrs.get('password') != attrs.get('confirm_password'):
-            raise serializers.ValidationError("Those passwords don't match.")
-        return attrs
 
 
 class UserLoginSerializer(serializers.Serializer):

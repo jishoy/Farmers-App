@@ -27,7 +27,7 @@ SECRET_KEY = 'dreldu-@070#9k^&#_*1#=a97z&#lyvoq)9c79u48t6%#h^(s#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['15.207.67.36']
+ALLOWED_HOSTS = ['15.207.67.36', '*']
 
 
 # Application definition
