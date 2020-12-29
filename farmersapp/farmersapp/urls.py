@@ -5,6 +5,7 @@ from django.contrib import admin
 api_urls = [
 
     path('', include('v1apps.user.urls')),
+    path('', include('v1apps.farms.urls')),
 
 ]
 

@@ -150,4 +150,4 @@ STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-EXPIRING_TOKEN_LIFESPAN = datetime.timedelta(hours=8)
+EXPIRING_TOKEN_LIFESPAN = datetime.timedelta(hours=48)
