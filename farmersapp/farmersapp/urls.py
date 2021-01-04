@@ -6,6 +6,7 @@ api_urls = [
 
     path('', include('v1apps.user.urls')),
     path('', include('v1apps.farms.urls')),
+    path('', include('v1apps.crop.urls')),
 
 ]
 

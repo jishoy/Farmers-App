@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Farm
-from .serializers import FarmSerializer
+from .models import Crop
+from .serializers import CropSerializer, CropSellSerializer
 
 
-class FarmAddAPIView(CreateAPIView):
+class CropAddAPIView(CreateAPIView):
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = FarmSerializer
+    serializer_class = CropSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -23,21 +23,21 @@ class FarmAddAPIView(CreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class FarmListView(ListAPIView):
+class CropListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = FarmSerializer
+    serializer_class = CropSerializer
 
     def get_queryset(self):
-        queryset = Farm.objects.all()
+        queryset = Crop.objects.all()
         return queryset
 
 
-class FarmUpdateView(RetrieveUpdateAPIView):
+class CropUpdateView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = FarmSerializer
+    serializer_class = CropSerializer
 
     def get_object(self):
-        queryset = Farm.objects.get(pk=self.kwargs.get('pk'))
+        queryset = Crop.objects.get(pk=self.kwargs.get('pk'))
         return queryset
 
     def put(self, request, *args, **kwargs):
@@ -49,12 +49,29 @@ class FarmUpdateView(RetrieveUpdateAPIView):
         return Response(data=data, status=status.HTTP_200_OK)
 
 
-class FarmDeleteView(RetrieveUpdateDestroyAPIView):
+class CropSellView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = FarmSerializer
+    serializer_class = CropSellSerializer
 
     def get_object(self):
-        queryset = Farm.objects.get(pk=self.kwargs.get('pk'))
+        queryset = Crop.objects.get(pk=self.kwargs.get('pk'))
+        return queryset
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        data = serializer.data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class CropDeleteView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CropSerializer
+
+    def get_object(self):
+        queryset = Crop.objects.get(pk=self.kwargs.get('pk'))
         return queryset
 
     def delete(self, request, *args, **kwargs):
@@ -64,11 +81,11 @@ class FarmDeleteView(RetrieveUpdateDestroyAPIView):
         return Response("Deleted", status=status.HTTP_200_OK)
 
 
-class GetFarmView(RetrieveAPIView):
+class GetCropView(RetrieveAPIView):
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = FarmSerializer
+    serializer_class = CropSerializer
 
     def get_object(self):
-        queryset = Farm.objects.get(pk=self.kwargs.get('pk'))
+        queryset = Crop.objects.get(pk=self.kwargs.get('pk'))
         return queryset

@@ -11,3 +11,6 @@ class Farm(models.Model):
     district = models.CharField(_('district'), max_length=30, blank=True)
     whether = models.CharField(_('whether'), max_length=30, blank=True)
     user_id = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.area
