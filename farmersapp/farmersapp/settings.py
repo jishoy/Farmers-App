@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     # Django apps
     'rest_framework',
     'rest_framework.authtoken',
-    'smart_selects',
     # Custom apps
     'v1apps.user',
     'v1apps.farms',
@@ -154,5 +153,3 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 EXPIRING_TOKEN_LIFESPAN = datetime.timedelta(hours=48)
-
-USE_DJANGO_JQUERY = True
