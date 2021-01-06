@@ -36,7 +36,7 @@ class getPhoneNumberRegistered(APIView):
             )
             phone = UserOtp.objects.get(phone=phone)  # user Newly created Model
         if phone.isVerified:
-            return Response("Already Registred!")
+            return Response({"response": "Already Registered!"}, status=200)
         else:
             phone.counter += 1  # Update Counter At every Call
             phone.save()  # Save the data
@@ -57,8 +57,8 @@ class getPhoneNumberRegistered(APIView):
         key = base64.b32encode(keygen.returnValue(phone).encode())  # Generating Key
         OTP = pyotp.HOTP(key)  # HOTP Model
         if OTP.verify(request.GET.get('otp'), phone.counter):  # Verifying the OTP
-            phone.isVerified = True
-            User.objects.create(phone=phone.phone)
+            # phone.isVerified = True
+            User.objects.get_or_create(phone=phone.phone)
             user = User.objects.get(phone=phone)
             token, _ = ExpiringToken.objects.get_or_create(user=user)
             phone.save()
@@ -95,7 +95,7 @@ class UserLoginAPIView(GenericAPIView):
 
 
 class UserUpdateView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = UserSerializer
 
     def get_object(self):
@@ -107,6 +107,10 @@ class UserUpdateView(RetrieveUpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+        phone = serializer.data['phone']
+        phone = UserOtp.objects.get(phone=phone)
+        phone.isVerified = True
+        phone.save()
         user = serializer.instance
         user.set_password(request.data['password'])
         user.save()

@@ -18,3 +18,24 @@ class Crop(models.Model):
 
     def __str__(self):
         return self.crop_name
+
+
+class Seed(models.Model):
+    brand = models.CharField(_('Brand'), max_length=30, blank=True)
+    name = models.CharField(_('Name'), max_length=30, blank=True)
+    category = models.CharField(_('Category'), max_length=30, blank=True)
+    variety = models.CharField(_('Variety'), max_length=30, blank=True)
+    price = models.IntegerField(_('Price'), blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Machinery(models.Model):
+    brand = models.CharField(_('Brand'), max_length=30, blank=True)
+    name = models.CharField(_('Name'), max_length=30, blank=True)
+    category = models.CharField(_('Category'), max_length=30, blank=True)
+    price = models.IntegerField(_('Price'), blank=True)
+
+    def __str__(self):
+        return self.name
