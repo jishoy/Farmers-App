@@ -95,7 +95,7 @@ class UserLoginAPIView(GenericAPIView):
 
 
 class UserUpdateView(RetrieveUpdateAPIView):
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_object(self):
