@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Crop
-from .serializers import CropSerializer, CropSellSerializer
+from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest
+from .serializers import CropSerializer, CropSellSerializer, SeedSerializer, MachineSerializer, BuySerializer
 
 
 class CropAddAPIView(CreateAPIView):
@@ -88,4 +88,64 @@ class GetCropView(RetrieveAPIView):
 
     def get_object(self):
         queryset = Crop.objects.get(pk=self.kwargs.get('pk'))
+        return queryset
+
+
+class SeedListView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = SeedSerializer
+
+    def get_queryset(self):
+        queryset = Seed.objects.all()
+        return queryset
+
+
+class MachineListView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = MachineSerializer
+
+    def get_queryset(self):
+        queryset = Machinery.objects.all()
+        return queryset
+
+
+class OtherListView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = MachineSerializer
+
+    def get_queryset(self):
+        queryset = Others.objects.all()
+        return queryset
+
+
+class PesticideAndFertilizerListView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PesticidesAndFertilizers
+
+    def get_queryset(self):
+        queryset = PesticidesAndFertilizers.objects.all()
+        return queryset
+
+
+class BuyAPIView(CreateAPIView):
+
+    permission_classes = ()
+    serializer_class = BuySerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        user = serializer.instance
+        user.save()
+        data = serializer.data
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+class RequestHistoryListView(ListAPIView):
+    permission_classes = ()
+    serializer_class = BuySerializer
+
+    def get_queryset(self):
+        queryset = BuyRequest.objects.filter(user=self.kwargs.get('user_id'))
         return queryset
