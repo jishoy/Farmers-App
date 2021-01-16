@@ -1,10 +1,10 @@
 from rest_framework.generics import (
-    GenericAPIView, CreateAPIView, RetrieveUpdateAPIView
+    GenericAPIView, CreateAPIView, RetrieveUpdateAPIView, ListAPIView
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import (
-    UserLoginSerializer, TokenSerializer, UserSerializer
+    UserLoginSerializer, TokenSerializer, UserSerializer, TransactionSerializer
 )
 from rest_framework import status
 from datetime import datetime
@@ -13,7 +13,7 @@ import pyotp
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import base64
-from .models import ExpiringToken, UserOtp, User
+from .models import ExpiringToken, UserOtp, User, Transaction
 
 
 # This class returns the string needed to generate the key
@@ -95,7 +95,7 @@ class UserLoginAPIView(GenericAPIView):
 
 
 class UserUpdateView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = IsAuthenticated
     serializer_class = UserSerializer
 
     def get_object(self):
@@ -116,3 +116,49 @@ class UserUpdateView(RetrieveUpdateAPIView):
         user.save()
         data = serializer.data
         return Response(data=data, status=status.HTTP_200_OK)
+
+
+class CreditListView(ListAPIView):
+    permission_classes = IsAuthenticated
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        queryset = Transaction.objects.filter(user=self.kwargs.get('user'), status="credit")
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        total_amt = 0
+        queryset = self.filter_queryset(self.get_queryset())
+        for query in queryset:
+            total_amt += query.amount
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"data":serializer.data, "total_amount": total_amt})
+
+
+class UsageListView(ListAPIView):
+    permission_classes = IsAuthenticated
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        queryset = Transaction.objects.filter(user=self.kwargs.get('user'), status="debit")
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        total_amt = 0
+        queryset = self.filter_queryset(self.get_queryset())
+        for query in queryset:
+            total_amt += query.amount
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"data":serializer.data, "total_amount": total_amt})
+
+

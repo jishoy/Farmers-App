@@ -1,24 +1,37 @@
+from django.http import JsonResponse
 from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView,\
     RetrieveAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest
-from .serializers import CropSerializer, CropSellSerializer, SeedSerializer, MachineSerializer, BuySerializer
+from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest, CropImage
+from v1apps.user.models import Transaction
+from .serializers import CropSerializer, CropSellSerializer, CropImageSerializer, SeedSerializer, MachineSerializer, BuyListSerializer, BuySerializer
 
 
 class CropAddAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        user = serializer.instance
-        user.save()
+        data = serializer.data
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+class CropImageAddAPIView(CreateAPIView):
+
+    permission_classes = ()
+    serializer_class = CropImageSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
         data = serializer.data
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -129,22 +142,59 @@ class PesticideAndFertilizerListView(ListAPIView):
 
 class BuyAPIView(CreateAPIView):
 
-    permission_classes = ()
+    permission_classes = IsAuthenticated
     serializer_class = BuySerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        user = serializer.instance
-        user.save()
         data = serializer.data
-        return Response(data, status=status.HTTP_201_CREATED)
+        buy_id = serializer.data['id']
+        buy_obj = BuyRequest.objects.get(id=buy_id)
+        seed = buy_obj.seed.all()
+        machine = buy_obj.machine.all()
+        pest_fer = buy_obj.pest_fer.all()
+        others = buy_obj.others.all()
+        seed_amt = 0
+        seed_name = ""
+        machine_amt = 0
+        machine_name = ""
+        pest_fer_amt = 0
+        pest_fer_name = ""
+        others_amt = 0
+        others_name = ""
+        for seed in seed:
+            seed_amt += seed.price
+            seed_name += "," + seed.name
+
+        for machine in machine:
+            machine_amt += machine.price
+            machine_name += "," + machine.name
+
+        for pest_fer in pest_fer:
+            pest_fer_amt += pest_fer.price
+            pest_fer_name += "," + pest_fer.name
+
+        for others in others:
+            others_amt += others.price
+            others_name += "," + others.name
+
+        total_amt = seed_amt + machine_amt + pest_fer_amt + others_amt
+
+        Transaction.objects.create(
+                                    user=buy_obj.user,
+                                    amount=total_amt,
+                                    status="debit",
+                                    purpose="Buy " + seed_name + " " + machine_name +
+                                            " " + pest_fer_name + " " + others_name
+                                  )
+        return Response({"data":data, "total amount": total_amt}, status=status.HTTP_201_CREATED)
 
 
 class RequestHistoryListView(ListAPIView):
-    permission_classes = ()
-    serializer_class = BuySerializer
+    permission_classes = IsAuthenticated
+    serializer_class = BuyListSerializer
 
     def get_queryset(self):
         queryset = BuyRequest.objects.filter(user=self.kwargs.get('user_id'))

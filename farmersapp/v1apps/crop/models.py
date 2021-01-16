@@ -11,13 +11,21 @@ class Crop(models.Model):
     exp_price = models.IntegerField(_('Expected Price'), blank=True)
     exp_yield = models.CharField(_('Expected Yield'), max_length=30, blank=True)
     exp_harvest_date = models.DateField(_('Expected Harvest Date'), blank=True)
-    crop_images = models.ImageField(upload_to ='uploads/crop-images')
+    activity = models.TextField(blank=True)
     user = models.ForeignKey(User, related_name='user_crop', on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, related_name='farm_crop', on_delete=models.CASCADE)
     sell_flag = models.BooleanField(default=False)
 
     def __str__(self):
         return self.crop_name
+
+
+class CropImage(models.Model):
+    crops = models.ForeignKey(Crop, default=None, on_delete=models.CASCADE)
+    images = models.FileField(upload_to='images/')
+
+    def __str__(self):
+        return self.crops.crop_name
 
 
 class Seed(models.Model):
@@ -71,3 +79,6 @@ class BuyRequest(models.Model):
     pest_fer = models.ManyToManyField(PesticidesAndFertilizers, blank=True)
     others = models.ManyToManyField(Others, blank=True)
 
+    def __str__(self):
+        # print(self.seed.all())
+        return str(self.user)

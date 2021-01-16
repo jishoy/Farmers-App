@@ -1,6 +1,7 @@
 from rest_framework import serializers
+from rest_framework.response import Response
 
-from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest
+from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest, CropImage
 from v1apps.user.serializers import UserSerializer
 
 
@@ -11,8 +12,15 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
-                  'crop_images', 'user', 'farm', 'user_name', 'farm_name')
+                  'crop_images', 'user', 'farm', 'user_name', 'farm_name', 'activity')
         model = Crop
+
+
+class CropImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'crops', 'images')
+        model = CropImage
 
 
 class CropSellSerializer(serializers.ModelSerializer):
@@ -52,12 +60,19 @@ class PesticideAndFertilizerSerializer(serializers.ModelSerializer):
         model = PesticidesAndFertilizers
 
 
-class BuySerializer(serializers.ModelSerializer):
+class BuyListSerializer(serializers.ModelSerializer):
     pest_fer = PesticideAndFertilizerSerializer(read_only=True, many=True)
     seed = SeedSerializer(read_only=True, many=True)
     machine = MachineSerializer(read_only=True, many=True)
     others = OtherSerializer(read_only=True, many=True)
     user = UserSerializer(read_only=True)
+
+    class Meta:
+        fields = ('id', 'user', 'seed', 'machine', 'pest_fer', 'others')
+        model = BuyRequest
+
+
+class BuySerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'user', 'seed', 'machine', 'pest_fer', 'others')

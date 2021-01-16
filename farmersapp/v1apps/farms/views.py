@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Farm
-from .serializers import FarmSerializer
+from .serializers import FarmSerializer, GeoTagSerializer
 
 
 class FarmAddAPIView(CreateAPIView):
@@ -17,8 +17,6 @@ class FarmAddAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        user = serializer.instance
-        user.save()
         data = serializer.data
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -72,3 +70,16 @@ class GetFarmView(RetrieveAPIView):
     def get_object(self):
         queryset = Farm.objects.get(pk=self.kwargs.get('pk'))
         return queryset
+
+
+class GeoTagAddAPIView(CreateAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = GeoTagSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        data = serializer.data
+        return Response(data, status=status.HTTP_201_CREATED)

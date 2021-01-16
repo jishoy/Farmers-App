@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
-from .models import User
+from .models import User, Transaction
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -50,3 +50,11 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ("auth_token", "created", "user")
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Transaction
+        fields = ("id", "date_of_transaction", "user", "amount", "status", "purpose")

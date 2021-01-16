@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     # Custom apps
     'v1apps.user',
     'v1apps.farms',
-    'v1apps.crop'
+    'v1apps.crop',
+    'v1apps.service',
+
 
 ]
 

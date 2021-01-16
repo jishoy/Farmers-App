@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from django.utils import timezone
 from django.conf import settings
 
+import datetime
+
 # Create your models here.
 
 
@@ -38,6 +40,21 @@ class UserOtp(models.Model):
 
     def __str__(self):
         return str(self.phone)
+
+
+class Transaction(models.Model):
+    TRANSACTION_CHOICES = (
+        ('credit', 'CREDIT'),
+        ('debit', 'DEBIT'),
+    )
+    user = models.ForeignKey(User, related_name='user_transaction', on_delete=models.CASCADE)
+    date_of_transaction = models.DateField(_("Date"), default=datetime.date.today)
+    amount = models.BigIntegerField()
+    status = models.CharField(max_length=6, choices=TRANSACTION_CHOICES, default='credit')
+    purpose = models.TextField()
+
+    def __str__(self):
+        return str(self.user)
 
 
 class ExpiringToken(Token):

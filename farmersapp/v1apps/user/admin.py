@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, UserOtp
+from .models import User, UserOtp, Transaction
 
 admin.site.register(User)
 admin.site.register(UserOtp)
+admin.site.register(Transaction)
