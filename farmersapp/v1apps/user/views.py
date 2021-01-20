@@ -95,7 +95,7 @@ class UserLoginAPIView(GenericAPIView):
 
 
 class UserUpdateView(RetrieveUpdateAPIView):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_object(self):
@@ -119,7 +119,7 @@ class UserUpdateView(RetrieveUpdateAPIView):
 
 
 class CreditListView(ListAPIView):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
@@ -141,7 +141,7 @@ class CreditListView(ListAPIView):
 
 
 class UsageListView(ListAPIView):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = TransactionSerializer
 
     def get_queryset(self):

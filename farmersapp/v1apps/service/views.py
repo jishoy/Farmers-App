@@ -10,7 +10,7 @@ from .serializers import ServiceSerializer
 
 class ServiceAddAPIView(CreateAPIView):
 
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = ServiceSerializer
 
     def create(self, request, *args, **kwargs):
@@ -22,7 +22,7 @@ class ServiceAddAPIView(CreateAPIView):
 
 
 class ServiceHistoryListView(ListAPIView):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = ServiceSerializer
 
     def get_queryset(self):

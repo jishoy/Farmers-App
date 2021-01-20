@@ -14,7 +14,6 @@ class Crop(models.Model):
     activity = models.TextField(blank=True)
     user = models.ForeignKey(User, related_name='user_crop', on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, related_name='farm_crop', on_delete=models.CASCADE)
-    sell_flag = models.BooleanField(default=False)
 
     def __str__(self):
         return self.crop_name
@@ -23,6 +22,14 @@ class Crop(models.Model):
 class CropImage(models.Model):
     crops = models.ForeignKey(Crop, default=None, on_delete=models.CASCADE)
     images = models.FileField(upload_to='images/')
+
+    def __str__(self):
+        return self.crops.crop_name
+
+
+class CropSell(models.Model):
+    crops = models.ForeignKey(Crop, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.crops.crop_name

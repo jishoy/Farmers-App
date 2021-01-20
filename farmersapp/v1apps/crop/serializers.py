@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.response import Response
 
-from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest, CropImage
+from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest, CropImage, CropSell
 from v1apps.user.serializers import UserSerializer
 
 
@@ -12,7 +12,7 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
-                  'crop_images', 'user', 'farm', 'user_name', 'farm_name', 'activity')
+                  'user', 'farm', 'user_name', 'farm_name', 'activity')
         model = Crop
 
 
@@ -26,8 +26,8 @@ class CropImageSerializer(serializers.ModelSerializer):
 class CropSellSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('id', 'sell_flag')
-        model = Crop
+        fields = ('id', 'crops', 'user')
+        model = CropSell
 
 
 class SeedSerializer(serializers.ModelSerializer):

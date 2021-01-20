@@ -12,7 +12,7 @@ from .serializers import CropSerializer, CropSellSerializer, CropImageSerializer
 
 class CropAddAPIView(CreateAPIView):
 
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
     serializer_class = CropSerializer
 
     def create(self, request, *args, **kwargs):
@@ -25,7 +25,7 @@ class CropAddAPIView(CreateAPIView):
 
 class CropImageAddAPIView(CreateAPIView):
 
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
     serializer_class = CropImageSerializer
 
     def create(self, request, *args, **kwargs):
@@ -142,7 +142,7 @@ class PesticideAndFertilizerListView(ListAPIView):
 
 class BuyAPIView(CreateAPIView):
 
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = BuySerializer
 
     def create(self, request, *args, **kwargs):
@@ -193,9 +193,22 @@ class BuyAPIView(CreateAPIView):
 
 
 class RequestHistoryListView(ListAPIView):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = BuyListSerializer
 
     def get_queryset(self):
         queryset = BuyRequest.objects.filter(user=self.kwargs.get('user_id'))
         return queryset
+
+
+class CropSellAPIView(CreateAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CropSellSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        data = serializer.data
+        return Response(data, status=status.HTTP_201_CREATED)

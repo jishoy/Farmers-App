@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     CropAddAPIView, CropListView, CropUpdateView, CropDeleteView, GetCropView, CropSellView,
     SeedListView, MachineListView, OtherListView, PesticideAndFertilizerListView, BuyAPIView,
-    RequestHistoryListView, CropImageAddAPIView
+    RequestHistoryListView, CropImageAddAPIView, CropSellAPIView
 )
 
 app_name = 'v1apps.crop'
@@ -13,7 +13,7 @@ urlpatterns = [
     path('crop/add/images', CropImageAddAPIView.as_view(), name="crop-add-images"),
     path('crop/list/', CropListView.as_view(), name="crop-list"),
     path('crop/crop-update/<int:pk>', CropUpdateView.as_view(), name="crop-update"),
-    path('crop/crop-sell/<int:pk>', CropSellView.as_view(), name="crop-sell"),
+    path('crop/crop-sell/', CropSellAPIView.as_view(), name="crop-sell"),
     path('crop/delete/<int:pk>/', CropDeleteView.as_view(), name="crop-delete"),
     path('crop/crop-view/<int:pk>/', GetCropView.as_view(), name="crop-view"),
     path('seed/list/', SeedListView.as_view(), name="seed-list"),
