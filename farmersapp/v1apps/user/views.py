@@ -13,7 +13,7 @@ import pyotp
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import base64
-from .models import UserOtp, User, Transaction
+from .models import ExpiringToken, UserOtp, User, Transaction
 
 
 # This class returns the string needed to generate the key
