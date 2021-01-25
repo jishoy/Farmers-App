@@ -12,7 +12,7 @@ from .serializers import CropSerializer, CropSellSerializer, CropImageSerializer
 
 class CropAddAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def create(self, request, *args, **kwargs):
@@ -25,7 +25,7 @@ class CropAddAPIView(CreateAPIView):
 
 class CropImageAddAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropImageSerializer
 
     def create(self, request, *args, **kwargs):
@@ -37,7 +37,7 @@ class CropImageAddAPIView(CreateAPIView):
 
 
 class CropListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def get_queryset(self):
@@ -46,7 +46,7 @@ class CropListView(ListAPIView):
 
 
 class CropUpdateView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def get_object(self):
@@ -63,7 +63,7 @@ class CropUpdateView(RetrieveUpdateAPIView):
 
 
 class CropSellView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSellSerializer
 
     def get_object(self):
@@ -80,7 +80,7 @@ class CropSellView(RetrieveUpdateAPIView):
 
 
 class CropDeleteView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def get_object(self):
@@ -96,7 +96,7 @@ class CropDeleteView(RetrieveUpdateDestroyAPIView):
 
 class GetCropView(RetrieveAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSerializer
 
     def get_object(self):
@@ -105,7 +105,7 @@ class GetCropView(RetrieveAPIView):
 
 
 class SeedListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = SeedSerializer
 
     def get_queryset(self):
@@ -114,7 +114,7 @@ class SeedListView(ListAPIView):
 
 
 class MachineListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = MachineSerializer
 
     def get_queryset(self):
@@ -123,7 +123,7 @@ class MachineListView(ListAPIView):
 
 
 class OtherListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = MachineSerializer
 
     def get_queryset(self):
@@ -132,7 +132,7 @@ class OtherListView(ListAPIView):
 
 
 class PesticideAndFertilizerListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = PesticidesAndFertilizers
 
     def get_queryset(self):
@@ -142,7 +142,7 @@ class PesticideAndFertilizerListView(ListAPIView):
 
 class BuyAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = BuySerializer
 
     def create(self, request, *args, **kwargs):
@@ -193,7 +193,7 @@ class BuyAPIView(CreateAPIView):
 
 
 class RequestHistoryListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = BuyListSerializer
 
     def get_queryset(self):
@@ -203,7 +203,7 @@ class RequestHistoryListView(ListAPIView):
 
 class CropSellAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = CropSellSerializer
 
     def create(self, request, *args, **kwargs):

@@ -10,7 +10,7 @@ from .serializers import FarmSerializer, GeoTagSerializer
 
 class FarmAddAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = FarmSerializer
 
     def create(self, request, *args, **kwargs):
@@ -22,7 +22,7 @@ class FarmAddAPIView(CreateAPIView):
 
 
 class FarmListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = FarmSerializer
 
     def get_queryset(self):
@@ -31,7 +31,7 @@ class FarmListView(ListAPIView):
 
 
 class FarmUpdateView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = FarmSerializer
 
     def get_object(self):
@@ -48,7 +48,7 @@ class FarmUpdateView(RetrieveUpdateAPIView):
 
 
 class FarmDeleteView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = FarmSerializer
 
     def get_object(self):
@@ -64,7 +64,7 @@ class FarmDeleteView(RetrieveUpdateDestroyAPIView):
 
 class GetFarmView(RetrieveAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = FarmSerializer
 
     def get_object(self):
@@ -74,7 +74,7 @@ class GetFarmView(RetrieveAPIView):
 
 class GeoTagAddAPIView(CreateAPIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     serializer_class = GeoTagSerializer
 
     def create(self, request, *args, **kwargs):
