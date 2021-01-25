@@ -25,11 +25,12 @@ class generateKey:
 
 class getPhoneNumberRegistered(APIView):
     permission_classes = ()
+
     # Get to Create a call for OTP
     @staticmethod
     def get(request, phone):
         try:
-            phone = UserOtp.objects.get(phone=phone) #if phone already exists the take this else create New One
+            phone = UserOtp.objects.get(phone=phone)  # if phone already exists the take this else create New One
         except ObjectDoesNotExist:
             UserOtp.objects.create(
                 phone=phone,
@@ -137,7 +138,7 @@ class CreditListView(ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response({"data":serializer.data, "total_amount": total_amt})
+        return Response({"data": serializer.data, "total_amount": total_amt})
 
 
 class UsageListView(ListAPIView):
@@ -159,6 +160,4 @@ class UsageListView(ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response({"data":serializer.data, "total_amount": total_amt})
-
-
+        return Response({"data": serializer.data, "total_amount": total_amt})

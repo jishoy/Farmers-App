@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.conf import settings
 
 import datetime
+import uuid
 
 # Create your models here.
 
@@ -18,7 +19,7 @@ class User(AbstractUser):
     location = models.CharField(_('location'), max_length=30, blank=True)
     phone = models.CharField(blank=True, max_length=20, unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
-    profile_images = models.ImageField(upload_to ='uploads/profile-images')
+    profile_images = models.ImageField(upload_to='uploads/profile-images', blank=True, null=True)
 
     def __str__(self):
         if self.name:
@@ -52,6 +53,7 @@ class Transaction(models.Model):
     amount = models.BigIntegerField()
     status = models.CharField(max_length=6, choices=TRANSACTION_CHOICES, default='credit')
     purpose = models.TextField()
+    trans_id = models.CharField(max_length=100, primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return str(self.user)
