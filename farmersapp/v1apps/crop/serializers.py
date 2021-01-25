@@ -1,26 +1,32 @@
 from rest_framework import serializers
 from rest_framework.response import Response
+from django.http import HttpResponse
 
-from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest, CropImage, CropSell
+from .models import Crop, Seed, Machinery, Others, PesticidesAndFertilizers, BuyRequest, CropSell, CropActivity
 from v1apps.user.serializers import UserSerializer
+
+
+class CropActivitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'crops', 'activity', 'images')
+        model = CropActivity
 
 
 class CropSerializer(serializers.ModelSerializer):
 
     user_name = serializers.ReadOnlyField(source='user.name')
     farm_name = serializers.ReadOnlyField(source='farm.area')
+    activities = serializers.SerializerMethodField()
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
-                  'user', 'farm', 'user_name', 'farm_name', 'activity')
+                  'user', 'farm', 'user_name', 'farm_name', 'activities')
         model = Crop
 
-
-class CropImageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        fields = ('id', 'crops', 'images')
-        model = CropImage
+    def get_activities(self, obj):
+        activities_queryset = CropActivity.objects.filter(crops=obj)
+        return CropActivitySerializer(activities_queryset, many=True).data
 
 
 class CropSellSerializer(serializers.ModelSerializer):
