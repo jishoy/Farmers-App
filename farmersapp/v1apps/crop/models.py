@@ -22,7 +22,7 @@ class Crop(models.Model):
     exp_harvest_date = models.DateField(_('Expected Harvest Date'), blank=True)
     user = models.ForeignKey(User, related_name='user_crop', on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, related_name='farm_crop', on_delete=models.CASCADE)
-    crop_image = models.FileField(upload_to='images/')
+    crop_image = models.FileField(upload_to='images/', blank=True)
 
     def __str__(self):
         return self.crop_name

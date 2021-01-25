@@ -21,7 +21,7 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
-                  'user', 'farm', 'user_name', 'farm_name', 'activities')
+                  'user', 'farm', 'user_name', 'farm_name', 'crop_image', 'activities')
         model = Crop
 
     def get_activities(self, obj):
