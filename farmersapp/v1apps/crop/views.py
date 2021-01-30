@@ -199,7 +199,7 @@ class BuyAPIView(CreateAPIView):
                                     purpose="Buy " + seed_name + " " + machine_name +
                                             " " + pest_fer_name + " " + others_name
                                   )
-        return Response({"data":data, "total amount": total_amt}, status=status.HTTP_201_CREATED)
+        return Response({"data": data, "total amount": total_amt}, status=status.HTTP_201_CREATED)
 
 
 class RequestHistoryListView(ListAPIView):

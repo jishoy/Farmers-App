@@ -3,29 +3,33 @@ from django.contrib import admin
 # Register your models here.
 from .models import Crop, Machinery, Seed, Others, PesticidesAndFertilizers, CropActivity, BuyRequest, CropSell
 
-# admin.site.register(Crop)
-admin.site.register(Seed)
-admin.site.register(Machinery)
-admin.site.register(Others)
-admin.site.register(PesticidesAndFertilizers)
+
+class CropSearch(admin.ModelAdmin):
+    search_fields = ['crop_name']
+
+
+class SeedSearch(admin.ModelAdmin):
+    search_fields = ['name', 'brand', 'category']
+
+
+class MachineSearch(admin.ModelAdmin):
+    search_fields = ['name', 'brand', 'category']
+
+
+class PestSearch(admin.ModelAdmin):
+    search_fields = ['name', 'brand', 'category']
+
+
+class OtherSearch(admin.ModelAdmin):
+    search_fields = ['name', 'brand', 'category']
+
+
+admin.site.register(Seed, SeedSearch)
+admin.site.register(Machinery, MachineSearch)
+admin.site.register(Others, OtherSearch)
+admin.site.register(PesticidesAndFertilizers, PestSearch)
 admin.site.register(BuyRequest)
 admin.site.register(CropSell)
-admin.site.register(Crop)
+admin.site.register(Crop, CropSearch)
 admin.site.register(CropActivity)
 
-
-# class PostImageAdmin(admin.StackedInline):
-#     model = CropImage
-#
-#
-# @admin.register(Crop)
-# class PostAdmin(admin.ModelAdmin):
-#     inlines = [PostImageAdmin]
-#
-#     class Meta:
-#         model = Crop
-#
-#
-# @admin.register(CropImage)
-# class PostImageAdmin(admin.ModelAdmin):
-#     pass
