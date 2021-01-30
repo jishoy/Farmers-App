@@ -10,18 +10,22 @@ class CropSearch(admin.ModelAdmin):
 
 class SeedSearch(admin.ModelAdmin):
     search_fields = ['name', 'brand', 'category']
+    list_filter = ['name', 'brand', 'category']
 
 
 class MachineSearch(admin.ModelAdmin):
     search_fields = ['name', 'brand', 'category']
+    list_filter = ['name', 'brand', 'category']
 
 
 class PestSearch(admin.ModelAdmin):
     search_fields = ['name', 'brand', 'category']
+    list_filter = ['name', 'brand', 'category']
 
 
 class OtherSearch(admin.ModelAdmin):
     search_fields = ['name', 'brand', 'category']
+    list_filter = ['name', 'brand', 'category']
 
 
 admin.site.register(Seed, SeedSearch)

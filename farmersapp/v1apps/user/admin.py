@@ -1,15 +1,16 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import User, UserOtp, Transaction
 
 
 class UserSearch(admin.ModelAdmin):
-    search_fields = ['name', 'phone', 'username']
+    search_fields = ['name', 'phone', 'username', 'date_joined']
+    list_filter = ['date_joined']
 
 
 class TransactionSearch(admin.ModelAdmin):
     search_fields = ['user', 'date_of_transaction', 'trans_id']
+    list_filter = ['user', 'date_of_transaction', 'trans_id']
 
 
 admin.site.register(User, UserSearch)
