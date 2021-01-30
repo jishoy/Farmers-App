@@ -11,5 +11,4 @@ pyotp==2.4.1
 pytz==2020.4
 six==1.15.0
 sqlparse==0.4.1
-django-jet==1.0.8
-
+https://github.com/darklow/django-suit/tarball/v2
