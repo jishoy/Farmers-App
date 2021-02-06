@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView,\
+from django.db.models import Sum
+from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, \
     RetrieveAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,11 +8,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest
 from v1apps.user.models import Transaction
-from .serializers import CropSerializer, CropSellSerializer, CropActivitySerializer, SeedSerializer, MachineSerializer, BuyListSerializer, BuySerializer
+from .serializers import CropSerializer, CropSellSerializer, CropActivitySerializer, SeedSerializer, MachineSerializer, \
+    BuyListSerializer, BuySerializer
 
 
 class CropAddAPIView(CreateAPIView):
-
     permission_classes = ()
     serializer_class = CropSerializer
 
@@ -24,7 +25,6 @@ class CropAddAPIView(CreateAPIView):
 
 
 class CropActivityAddAPIView(CreateAPIView):
-
     permission_classes = ()
     serializer_class = CropActivitySerializer
 
@@ -105,7 +105,6 @@ class CropDeleteView(RetrieveUpdateDestroyAPIView):
 
 
 class GetCropView(RetrieveAPIView):
-
     permission_classes = ()
     serializer_class = CropSerializer
 
@@ -151,7 +150,6 @@ class PesticideAndFertilizerListView(ListAPIView):
 
 
 class BuyAPIView(CreateAPIView):
-
     permission_classes = ()
     serializer_class = BuySerializer
 
@@ -162,43 +160,25 @@ class BuyAPIView(CreateAPIView):
         data = serializer.data
         buy_id = serializer.data['id']
         buy_obj = BuyRequest.objects.get(id=buy_id)
-        seed = buy_obj.seed.all()
-        machine = buy_obj.machine.all()
-        pest_fer = buy_obj.pest_fer.all()
-        others = buy_obj.others.all()
-        seed_amt = 0
-        seed_name = ""
-        machine_amt = 0
-        machine_name = ""
-        pest_fer_amt = 0
-        pest_fer_name = ""
-        others_amt = 0
-        others_name = ""
-        for seed in seed:
-            seed_amt += seed.price
-            seed_name += "," + seed.name
 
-        for machine in machine:
-            machine_amt += machine.price
-            machine_name += "," + machine.name
-
-        for pest_fer in pest_fer:
-            pest_fer_amt += pest_fer.price
-            pest_fer_name += "," + pest_fer.name
-
-        for others in others:
-            others_amt += others.price
-            others_name += "," + others.name
+        seed_name = [name for name in buy_obj.seed.values_list('name', flat=True)]
+        machine_name = [name for name in buy_obj.machine.values_list('name', flat=True)]
+        pest_fer_name = [name for name in buy_obj.pest_fer.values_list('name', flat=True)]
+        others_name = [name for name in buy_obj.others.values_list('name', flat=True)]
+        seed_amt = buy_obj.seed.aggregate(Sum('price'))['price__sum']
+        machine_amt = buy_obj.machine.aggregate(Sum('price'))['price__sum']
+        pest_fer_amt = buy_obj.pest_fer.aggregate(Sum('price'))['price__sum']
+        others_amt = buy_obj.others.aggregate(Sum('price'))['price__sum']
 
         total_amt = seed_amt + machine_amt + pest_fer_amt + others_amt
+        purpose = ','.join(seed_name + machine_name + pest_fer_name + others_name)
 
         Transaction.objects.create(
-                                    user=buy_obj.user,
-                                    amount=total_amt,
-                                    status="debit",
-                                    purpose="Buy " + seed_name + " " + machine_name +
-                                            " " + pest_fer_name + " " + others_name
-                                  )
+            user=buy_obj.user,
+            amount=total_amt,
+            status="debit",
+            purpose="Buy " + purpose
+        )
         return Response({"data": data, "total amount": total_amt}, status=status.HTTP_201_CREATED)
 
 
@@ -212,7 +192,6 @@ class RequestHistoryListView(ListAPIView):
 
 
 class CropSellAPIView(CreateAPIView):
-
     permission_classes = ()
     serializer_class = CropSellSerializer
 
