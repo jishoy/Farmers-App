@@ -7,18 +7,15 @@ from v1apps.user.serializers import UserSerializer
 
 
 class CropActivitySerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'crops', 'activity', 'images')
         model = CropActivity
 
 
 class CropSerializer(serializers.ModelSerializer):
-
     user_name = serializers.ReadOnlyField(source='user.name')
     farm_name = serializers.ReadOnlyField(source='farm.area')
     activities = serializers.SerializerMethodField()
-
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
@@ -31,14 +28,12 @@ class CropSerializer(serializers.ModelSerializer):
 
 
 class CropSellSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'crops', 'user')
         model = CropSell
 
 
 class SeedSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'brand', 'name', 'category', 'variety',
                   'price')
@@ -47,21 +42,18 @@ class SeedSerializer(serializers.ModelSerializer):
 
 
 class MachineSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'brand', 'name', 'category', 'price')
         model = Machinery
 
 
 class OtherSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'brand', 'name', 'category', 'price')
         model = Others
 
 
 class PesticideAndFertilizerSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'brand', 'name', 'category', 'price')
         model = PesticidesAndFertilizers
@@ -80,7 +72,6 @@ class BuyListSerializer(serializers.ModelSerializer):
 
 
 class BuySerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = ('id', 'user', 'seed', 'machine', 'pest_fer', 'others')
         model = BuyRequest

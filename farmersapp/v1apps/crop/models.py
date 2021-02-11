@@ -86,6 +86,7 @@ class BuyRequest(models.Model):
     machine = models.ManyToManyField(Machinery, blank=True, related_name="crop_machine")
     pest_fer = models.ManyToManyField(PesticidesAndFertilizers, blank=True)
     others = models.ManyToManyField(Others, blank=True)
+    approve = models.BooleanField(default=False)
 
     def __str__(self):
         # print(self.seed.all())
