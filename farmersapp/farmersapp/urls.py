@@ -1,5 +1,6 @@
 from django.urls import include, path
 from django.contrib import admin
+from v1apps.user.admin import base_admin_site
 
 admin.site.site_header = "Admin Dashboard"
 admin.site.site_title = "farmers app"
@@ -15,5 +16,6 @@ api_urls = [
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('base-admin/', base_admin_site.urls),
     path('api/', include(api_urls)),
 ]

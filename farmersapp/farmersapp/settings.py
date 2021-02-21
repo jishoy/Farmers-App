@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'v1apps.crop.context_processor.access_banner_image'
             ],
         },
     },

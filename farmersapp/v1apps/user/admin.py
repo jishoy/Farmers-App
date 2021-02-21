@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
+from django.contrib.admin import AdminSite
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin, messages
@@ -212,11 +212,20 @@ class TransactionSearch(admin.ModelAdmin):
 
     list_display = ('user', 'amount', 'status', 'date_of_transaction')
     list_filter = ('user', 'status', 'date_of_transaction')
-    search_fields = ('trans_id',)
+    search_fields = ('trans_id', 'user__name')
     ordering = ('-date_of_transaction',)
     readonly_fields = ('date_of_transaction',)
 
 
+class BaseAdminSite(AdminSite):
+    site_header = "Base Admin"
+    site_title = "Base Admin Portal"
+    index_title = "Welcome to Farmers Portal"
+
+
+base_admin_site = BaseAdminSite(name='base_admin')
+
+admin.site.index_template = 'admin/snippets/home.html'
 admin.site.register(User, UserAdmin)
 admin.site.register(Transaction, TransactionSearch)
 admin.site.unregister(Group)
