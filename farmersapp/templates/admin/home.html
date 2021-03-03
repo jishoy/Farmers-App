@@ -1,0 +1,18 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Notifications' %}</h2>
+            <ul class="actionlist">
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                <a href="#">Total buy requests need to be approve:{{ buy_requests }}</a>
+            </li>
+                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                <a href="#">Total buy requests need to be approve:{{ buy_requests }}</a>
+            </li>
+            </ul>
+    </div>
+</div>
+{% endblock %}
+
