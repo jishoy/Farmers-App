@@ -225,7 +225,7 @@ class BaseAdminSite(AdminSite):
 
 base_admin_site = BaseAdminSite(name='base_admin')
 
-admin.site.index_template = 'admin/snippets/home.html'
+admin.site.index_template = 'admin/home.html'
 admin.site.register(User, UserAdmin)
 admin.site.register(Transaction, TransactionSearch)
 admin.site.unregister(Group)
