@@ -65,13 +65,16 @@ class CropListView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(queryset, many=True)
-        return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
 
 
 class CropUpdateView(RetrieveUpdateAPIView):

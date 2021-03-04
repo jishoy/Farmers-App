@@ -5,11 +5,11 @@ from .models import Farm, GeoTag
 
 class FarmSerializer(serializers.ModelSerializer):
 
-    user_name = serializers.ReadOnlyField(source='user_id.name')
+    geo = serializers.ReadOnlyField(source='geo.loc_lat_long')
 
     class Meta:
-        fields = ('id', 'area', 'village', 'district', 'whether',
-                  'user_id', 'user_name')
+        fields = ('id', 'name', 'village', 'district', 'acres',
+                  'soil_health', 'geo')
         model = Farm
 
 
