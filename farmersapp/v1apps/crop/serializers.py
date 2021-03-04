@@ -12,6 +12,12 @@ class CropActivitySerializer(serializers.ModelSerializer):
         model = CropActivity
 
 
+class CropListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'crop_name', 'harvest_days', 'acres', 'crop_image')
+        model = Crop
+
+
 class CropSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.name')
     farm_name = serializers.ReadOnlyField(source='farm.area')

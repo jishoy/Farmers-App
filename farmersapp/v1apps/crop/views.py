@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest
 from v1apps.user.models import Transaction
-from .serializers import CropSerializer, CropSellSerializer, CropActivitySerializer, SeedSerializer, MachineSerializer, \
+from .serializers import CropListSerializer, CropSerializer, CropSellSerializer, CropActivitySerializer, SeedSerializer, MachineSerializer, \
     BuyListSerializer, BuySerializer
 
 
@@ -36,7 +36,7 @@ class CropActivityAddAPIView(CreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class CropListView(ListAPIView):
+class CropListActivityView(ListAPIView):
     permission_classes = ()
     serializer_class = CropSerializer
 
@@ -53,6 +53,25 @@ class CropListView(ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response({"data": serializer.data, "status": "200"}, status=status.HTTP_200_OK)
+
+
+class CropListView(ListAPIView):
+    permission_classes = ()
+    serializer_class = CropListSerializer
+
+    def get_queryset(self):
+        queryset = Crop.objects.filter(user=self.kwargs.get('pk'))
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
 
 
 class CropUpdateView(RetrieveUpdateAPIView):

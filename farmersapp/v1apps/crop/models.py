@@ -17,12 +17,15 @@ class CropActivity(models.Model):
 
 class Crop(models.Model):
     crop_name = models.CharField(_('Crop Name'), max_length=30, blank=True)
+    acres = models.CharField(_('Acres'), max_length=30, blank=True)
     exp_price = models.IntegerField(_('Expected Price'), blank=True)
+    harvest_days = models.IntegerField(_('Harvest Days'), blank=True)
     exp_yield = models.CharField(_('Expected Yield'), max_length=30, blank=True)
     exp_harvest_date = models.DateField(_('Expected Harvest Date'), blank=True)
     user = models.ForeignKey(User, related_name='user_crop', on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, related_name='farm_crop', on_delete=models.CASCADE)
     crop_image = models.FileField(upload_to='images/', blank=True)
+
 
     def __str__(self):
         return self.crop_name
