@@ -45,6 +45,8 @@ class Seed(models.Model):
     category = models.CharField(_('Category'), max_length=30, blank=True)
     variety = models.CharField(_('Variety'), max_length=30, blank=True)
     price = models.IntegerField(_('Price'), blank=True)
+    seed_image = models.FileField(upload_to='seed_images/', blank=True)
+
 
     def __str__(self):
         return self.name
@@ -55,6 +57,7 @@ class Machinery(models.Model):
     name = models.CharField(_('Name'), max_length=30, blank=True)
     category = models.CharField(_('Category'), max_length=30, blank=True)
     price = models.IntegerField(_('Price'), blank=True)
+    machine_image = models.FileField(upload_to='machine_images/', blank=True)
 
     def __str__(self):
         return self.name
@@ -65,6 +68,7 @@ class Others(models.Model):
     name = models.CharField(_('Name'), max_length=30, blank=True)
     category = models.CharField(_('Category'), max_length=30, blank=True)
     price = models.IntegerField(_('Price'), blank=True)
+    other_image = models.FileField(upload_to='other_images/', blank=True)
 
     class Meta:
         verbose_name_plural = "Others"
@@ -78,6 +82,7 @@ class PesticidesAndFertilizers(models.Model):
     name = models.CharField(_('Name'), max_length=30, blank=True)
     category = models.CharField(_('Category'), max_length=30, blank=True)
     price = models.IntegerField(_('Price'), blank=True)
+    pest_image = models.FileField(upload_to='pest_images/', blank=True)
 
     def __str__(self):
         return self.name

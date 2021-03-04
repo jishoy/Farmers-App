@@ -41,27 +41,26 @@ class CropSellSerializer(serializers.ModelSerializer):
 
 class SeedSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'brand', 'name', 'category', 'variety',
-                  'price')
+        fields = ('id', 'name', 'seed_image')
 
         model = Seed
 
 
 class MachineSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'brand', 'name', 'category', 'price')
+        fields = ('id', 'name', 'machine_image')
         model = Machinery
 
 
 class OtherSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'brand', 'name', 'category', 'price')
+        fields = ('id', 'name', 'other_image')
         model = Others
 
 
 class PesticideAndFertilizerSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'brand', 'name', 'category', 'price')
+        fields = ('id', 'name', 'pest_image')
         model = PesticidesAndFertilizers
 
 

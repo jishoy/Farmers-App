@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Crop, Seed, Machinery, PesticidesAndFertilizers, Others, BuyRequest
 from v1apps.user.models import Transaction
 from .serializers import CropListSerializer, CropSerializer, CropSellSerializer, CropActivitySerializer, SeedSerializer, MachineSerializer, \
-    BuyListSerializer, BuySerializer
+    BuyListSerializer, BuySerializer, OtherSerializer, PesticideAndFertilizerSerializer
 
 
 class CropAddAPIView(CreateAPIView):
@@ -143,6 +143,19 @@ class SeedListView(ListAPIView):
         queryset = Seed.objects.all()
         return queryset
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
 
 class MachineListView(ListAPIView):
     permission_classes = ()
@@ -152,23 +165,63 @@ class MachineListView(ListAPIView):
         queryset = Machinery.objects.all()
         return queryset
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
 
 class OtherListView(ListAPIView):
     permission_classes = ()
-    serializer_class = MachineSerializer
+    serializer_class = OtherSerializer
 
     def get_queryset(self):
         queryset = Others.objects.all()
         return queryset
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
 
 class PesticideAndFertilizerListView(ListAPIView):
     permission_classes = ()
-    serializer_class = PesticidesAndFertilizers
+    serializer_class = PesticideAndFertilizerSerializer
 
     def get_queryset(self):
         queryset = PesticidesAndFertilizers.objects.all()
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
 
 
 class BuyAPIView(CreateAPIView):
