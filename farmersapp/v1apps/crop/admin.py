@@ -6,8 +6,8 @@ from .models import Crop, Machinery, Seed, Others, PesticidesAndFertilizers, Cro
 
 class CropSearch(admin.ModelAdmin):
     fieldsets = [('Crop info', {'fields': ('crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
-                                           'acres', 'harvest_days',
-                                           'user', 'farm', 'crop_image')})]
+                                           'acres', 'harvest_days', 'fertilizer_expense', 'seed_expense',
+                                           'machine_expense', 'total_expense', 'user', 'farm', 'crop_image')})]
     list_filter = ('user',)
     search_fields = ['crop_name']
     list_display = ('crop_name', 'user', 'farm',)
@@ -43,7 +43,7 @@ class OtherSearch(admin.ModelAdmin):
 
 class BuyRequestClass(admin.ModelAdmin):
     list_display = ('user', 'approve',)
-    fieldsets = [('Buyrequest info', {'fields': ('user', 'approve',)})]
+    fieldsets = [('Request info', {'fields': ('user', 'seed', 'machine', 'pest_fer', 'others', 'approve',)})]
     search_fields = ['user__name', ]
     list_filter = ['user', ]
 

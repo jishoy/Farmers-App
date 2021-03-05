@@ -14,15 +14,14 @@ class Farm(models.Model):
     acres = models.IntegerField(_('acres'), max_length=30, blank=True)
     whether = models.CharField(_('whether'), max_length=30, blank=True)
     user_id = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
-    geo = models.ForeignKey('GeoTag', related_name='geo', on_delete=models.CASCADE)
+    geo = jsonfield.JSONField()
     soil_health = models.IntegerField(_('Soil Health'), blank=True)
 
-
     def __str__(self):
-        return self.area
+        return self.name
 
 
-class GeoTag(models.Model):
-    user = models.ForeignKey(User, related_name='user_geo_tag', on_delete=models.CASCADE)
-    farm = models.ForeignKey(Farm, related_name='farm_geo_tag', on_delete=models.CASCADE)
-    loc_lat_long = jsonfield.JSONField()
+# class GeoTag(models.Model):
+#     user = models.ForeignKey(User, related_name='user_geo_tag', on_delete=models.CASCADE)
+#     farm = models.ForeignKey(Farm, related_name='farm_geo_tag', on_delete=models.CASCADE)
+#     loc_lat_long = jsonfield.JSONField()

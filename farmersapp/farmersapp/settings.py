@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'v1apps.farms',
     'v1apps.crop',
     'v1apps.service',
+    'v1apps.home',
 
 
 ]
@@ -90,7 +91,7 @@ WSGI_APPLICATION = 'farmersapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'farmer',
+        'NAME': 'farmer_new',
         'USER': 'user',
         'PASSWORD': '',
         'HOST': '',   # Or an IP Address that your DB is hosted on

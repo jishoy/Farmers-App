@@ -8,13 +8,13 @@ from v1apps.user.serializers import UserSerializer
 
 class CropActivitySerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'crops', 'activity', 'images')
+        fields = ('id', 'crops', 'activity', 'images', 'date')
         model = CropActivity
 
 
 class CropListSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'crop_name', 'harvest_days', 'acres', 'crop_image')
+        fields = ('id', 'crop_name', 'harvest_days', 'acres', 'images')
         model = Crop
 
 
@@ -25,6 +25,7 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'crop_name', 'exp_price', 'exp_yield', 'exp_harvest_date',
+                  'total_expense', 'fertilizer_expense', 'machine_expense', 'seed_expense',
                   'user', 'farm', 'user_name', 'farm_name', 'crop_image', 'activities')
         model = Crop
 

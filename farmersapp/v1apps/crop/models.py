@@ -8,23 +8,28 @@ from v1apps.farms.models import Farm
 
 class CropActivity(models.Model):
     crops = models.ForeignKey('Crop', default=None, on_delete=models.CASCADE)
-    activity = models.TextField(blank=True)
+    activity = models.TextField()
     images = models.FileField(upload_to='images/')
+    date = models.DateField(_('Date'))
 
     def __str__(self):
         return self.crops.crop_name
 
 
 class Crop(models.Model):
-    crop_name = models.CharField(_('Crop Name'), max_length=30, blank=True)
-    acres = models.CharField(_('Acres'), max_length=30, blank=True)
-    exp_price = models.IntegerField(_('Expected Price'), blank=True)
-    harvest_days = models.IntegerField(_('Harvest Days'), blank=True)
-    exp_yield = models.CharField(_('Expected Yield'), max_length=30, blank=True)
-    exp_harvest_date = models.DateField(_('Expected Harvest Date'), blank=True)
+    crop_name = models.CharField(_('Crop Name'), max_length=30)
+    acres = models.CharField(_('Acres'), max_length=30)
+    exp_price = models.IntegerField(_('Expected Price'))
+    total_expense = models.IntegerField(_('Total Expense'))
+    fertilizer_expense = models.IntegerField(_('Fertilizer Expense'))
+    seed_expense = models.IntegerField(_('Seed Expense'))
+    machine_expense = models.IntegerField(_('Machine Expense'))
+    harvest_days = models.IntegerField(_('Harvest Days'))
+    exp_yield = models.CharField(_('Expected Yield'), max_length=30)
+    exp_harvest_date = models.DateField(_('Expected Harvest Date'))
     user = models.ForeignKey(User, related_name='user_crop', on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, related_name='farm_crop', on_delete=models.CASCADE)
-    crop_image = models.FileField(upload_to='images/', blank=True)
+    crop_image = models.FileField(upload_to='images/')
 
 
     def __str__(self):
@@ -90,6 +95,7 @@ class PesticidesAndFertilizers(models.Model):
 
 class BuyRequest(models.Model):
     user = models.ForeignKey(User, related_name='seed_buy', on_delete=models.CASCADE)
+    # title = models.CharField(_('Title'), max_length=30)
     seed = models.ManyToManyField(Seed, blank=True)
     machine = models.ManyToManyField(Machinery, blank=True, related_name="crop_machine")
     pest_fer = models.ManyToManyField(PesticidesAndFertilizers, blank=True)

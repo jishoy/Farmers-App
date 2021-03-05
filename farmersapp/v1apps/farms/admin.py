@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Farm, GeoTag
+from .models import Farm
 
 
 class FarmSearch(admin.ModelAdmin):
@@ -13,4 +13,3 @@ class FarmSearch(admin.ModelAdmin):
 
 
 admin.site.register(Farm, FarmSearch)
-admin.site.register(GeoTag)

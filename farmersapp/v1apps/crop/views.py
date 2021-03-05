@@ -46,13 +46,16 @@ class CropListActivityView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(queryset, many=True)
-        return Response({"data": serializer.data, "status": "200"}, status=status.HTTP_200_OK)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
 
 
 class CropListView(ListAPIView):
@@ -264,6 +267,20 @@ class RequestHistoryListView(ListAPIView):
     def get_queryset(self):
         queryset = BuyRequest.objects.filter(user=self.kwargs.get('user_id'))
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
 
 
 class CropSellAPIView(CreateAPIView):
