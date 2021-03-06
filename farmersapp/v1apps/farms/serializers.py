@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Farm
+from .models import Farm, District, Vilage
 
 
 class FarmSerializer(serializers.ModelSerializer):
@@ -11,6 +11,20 @@ class FarmSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'village', 'district', 'acres',
                   'soil_health', 'geo')
         model = Farm
+
+
+class DistrictSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'name', 'code')
+        model = District
+
+
+class VillageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'name')
+        model = Vilage
 
 
 # class GeoTagSerializer(serializers.ModelSerializer):

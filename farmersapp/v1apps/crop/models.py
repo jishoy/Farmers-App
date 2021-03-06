@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+import datetime
 
 from v1apps.user.models import User
 from v1apps.farms.models import Farm
@@ -94,13 +95,20 @@ class PesticidesAndFertilizers(models.Model):
 
 
 class BuyRequest(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('reject', 'Reject'),
+    )
     user = models.ForeignKey(User, related_name='seed_buy', on_delete=models.CASCADE)
-    # title = models.CharField(_('Title'), max_length=30)
+    title = models.CharField(_('Title'), max_length=30)
     seed = models.ManyToManyField(Seed, blank=True)
     machine = models.ManyToManyField(Machinery, blank=True, related_name="crop_machine")
     pest_fer = models.ManyToManyField(PesticidesAndFertilizers, blank=True)
     others = models.ManyToManyField(Others, blank=True)
-    approve = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    total_amount = models.IntegerField(_('Total Amount'), null=True, blank=True)
+    date = models.DateField(_('Date'), default=datetime.date.today)
 
     def __str__(self):
         # print(self.seed.all())

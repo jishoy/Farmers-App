@@ -42,42 +42,42 @@ class CropSellSerializer(serializers.ModelSerializer):
 
 class SeedSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'name', 'seed_image')
+        fields = ('id', 'name', 'seed_image', 'price')
 
         model = Seed
 
 
 class MachineSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'name', 'machine_image')
+        fields = ('id', 'name', 'machine_image', 'price')
         model = Machinery
 
 
 class OtherSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'name', 'other_image')
+        fields = ('id', 'name', 'other_image', 'price')
         model = Others
 
 
 class PesticideAndFertilizerSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'name', 'pest_image')
+        fields = ('id', 'name', 'pest_image', 'price')
         model = PesticidesAndFertilizers
 
 
 class BuyListSerializer(serializers.ModelSerializer):
-    pest_fer = PesticideAndFertilizerSerializer(read_only=True, many=True)
-    seed = SeedSerializer(read_only=True, many=True)
-    machine = MachineSerializer(read_only=True, many=True)
-    others = OtherSerializer(read_only=True, many=True)
-    user = UserSerializer(read_only=True)
+    # pest_fer = PesticideAndFertilizerSerializer(read_only=True, many=True)
+    # seed = SeedSerializer(read_only=True, many=True)
+    # machine = MachineSerializer(read_only=True, many=True)
+    # others = OtherSerializer(read_only=True, many=True)
+    # user = UserSerializer(read_only=True)
 
     class Meta:
-        fields = ('id', 'user', 'seed', 'machine', 'pest_fer', 'others')
+        fields = ('id', 'title', 'status', 'date', 'total_amount')
         model = BuyRequest
 
 
 class BuySerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'user', 'seed', 'machine', 'pest_fer', 'others')
+        fields = ('id', 'title', 'user', 'seed', 'machine', 'pest_fer', 'others')
         model = BuyRequest

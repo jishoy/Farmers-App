@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'v1apps.farms',
     'v1apps.crop',
     'v1apps.service',
-    'v1apps.home',
+    'v1apps.misc',
 
 
 ]
@@ -76,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'v1apps.crop.context_processor.access_banner_image'
+                # 'v1apps.crop.context_processor.access_banner_image'
             ],
         },
     },

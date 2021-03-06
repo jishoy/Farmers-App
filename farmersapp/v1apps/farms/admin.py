@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Farm
+from .models import Farm, District, Vilage
 
 
 class FarmSearch(admin.ModelAdmin):
@@ -12,4 +12,14 @@ class FarmSearch(admin.ModelAdmin):
                                            'district', 'acres')},)]
 
 
+class DistrictSearch(admin.ModelAdmin):
+    search_fields = ['name']
+
+
+class VillageSearch(admin.ModelAdmin):
+    search_fields = ['name']
+
+
 admin.site.register(Farm, FarmSearch)
+admin.site.register(District, DistrictSearch)
+admin.site.register(Vilage, VillageSearch)

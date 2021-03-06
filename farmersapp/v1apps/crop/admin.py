@@ -14,36 +14,37 @@ class CropSearch(admin.ModelAdmin):
 
 
 class SeedSearch(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'category')
-    fieldsets = [('Seed info', {'fields': ('name', 'brand', 'category')})]
+    list_display = ('name', 'brand', 'category', 'price')
+    fieldsets = [('Seed info', {'fields': ('name', 'brand', 'category', 'price', 'seed_image')})]
     search_fields = ['name', 'brand', 'category']
     list_filter = ['name', 'brand', 'category']
 
 
 class MachineSearch(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'category')
-    fieldsets = [('Machine info', {'fields': ('name', 'brand', 'category')})]
+    list_display = ('name', 'brand', 'category', 'price')
+    fieldsets = [('Machine info', {'fields': ('name', 'brand', 'category', 'price', 'machine_image')})]
     search_fields = ['name', 'brand', 'category']
     list_filter = ['name', 'brand', 'category']
 
 
 class PestSearch(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'category')
-    fieldsets = [('Pest info', {'fields': ('name', 'brand', 'category')})]
+    list_display = ('name', 'brand', 'category', 'price')
+    fieldsets = [('Pest info', {'fields': ('name', 'brand', 'category', 'price', 'pest_image')})]
     search_fields = ['name', 'brand', 'category']
     list_filter = ['name', 'brand', 'category']
 
 
 class OtherSearch(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'category')
-    fieldsets = [('Other info', {'fields': ('name', 'brand', 'category')})]
+    list_display = ('name', 'brand', 'category', 'price')
+    fieldsets = [('Other info', {'fields': ('name', 'brand', 'category', 'price', 'other_image')})]
     search_fields = ['name', 'brand', 'category']
     list_filter = ['name', 'brand', 'category']
 
 
 class BuyRequestClass(admin.ModelAdmin):
-    list_display = ('user', 'approve',)
-    fieldsets = [('Request info', {'fields': ('user', 'seed', 'machine', 'pest_fer', 'others', 'approve',)})]
+    list_display = ('user',)
+    fieldsets = [('Request info', {'fields': ('user', 'title', 'seed', 'machine',
+                                              'pest_fer', 'others', 'status', 'date', 'total_amount' )})]
     search_fields = ['user__name', ]
     list_filter = ['user', ]
 

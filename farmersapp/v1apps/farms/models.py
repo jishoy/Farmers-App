@@ -21,6 +21,20 @@ class Farm(models.Model):
         return self.name
 
 
+class District(models.Model):
+    name = models.CharField(_('name'), max_length=30, blank=True)
+    code = models.CharField(_('code'), max_length=30, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Vilage(models.Model):
+    name = models.CharField(_('name'), max_length=30, blank=True)
+
+    def __str__(self):
+        return self.name
+
 # class GeoTag(models.Model):
 #     user = models.ForeignKey(User, related_name='user_geo_tag', on_delete=models.CASCADE)
 #     farm = models.ForeignKey(Farm, related_name='farm_geo_tag', on_delete=models.CASCADE)

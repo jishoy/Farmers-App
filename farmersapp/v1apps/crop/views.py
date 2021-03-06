@@ -226,19 +226,19 @@ class PesticideAndFertilizerListView(ListAPIView):
             return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
 
 
-
 class BuyAPIView(CreateAPIView):
     permission_classes = ()
     serializer_class = BuySerializer
 
     def create(self, request, *args, **kwargs):
+        total_amt = 0
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         data = serializer.data
         buy_id = serializer.data['id']
         buy_obj = BuyRequest.objects.get(id=buy_id)
-
+        print(buy_obj)
         seed_name = [name for name in buy_obj.seed.values_list('name', flat=True)]
         machine_name = [name for name in buy_obj.machine.values_list('name', flat=True)]
         pest_fer_name = [name for name in buy_obj.pest_fer.values_list('name', flat=True)]
@@ -248,7 +248,17 @@ class BuyAPIView(CreateAPIView):
         pest_fer_amt = buy_obj.pest_fer.aggregate(Sum('price'))['price__sum']
         others_amt = buy_obj.others.aggregate(Sum('price'))['price__sum']
 
-        total_amt = seed_amt + machine_amt + pest_fer_amt + others_amt
+        if seed_amt is not None:
+            total_amt += seed_amt
+        if machine_amt is not None:
+            total_amt += machine_amt
+        if pest_fer_amt is not None:
+            total_amt += pest_fer_amt
+        if others_amt is not None:
+            total_amt += others_amt
+        # total_amt = seed_amt + machine_amt + pest_fer_amt + others_amt
+        buy_obj.total_amount = total_amt
+        buy_obj.save()
         purpose = ','.join(seed_name + machine_name + pest_fer_name + others_name)
 
         Transaction.objects.create(
@@ -280,7 +290,6 @@ class RequestHistoryListView(ListAPIView):
 
             serializer = self.get_serializer(queryset, many=True)
             return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
-
 
 
 class CropSellAPIView(CreateAPIView):

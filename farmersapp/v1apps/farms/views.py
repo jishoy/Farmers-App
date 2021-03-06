@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Farm
-from .serializers import FarmSerializer
+from .models import Farm, District, Vilage
+from .serializers import FarmSerializer, DistrictSerializer, VillageSerializer
 
 
 class FarmAddAPIView(CreateAPIView):
@@ -84,6 +84,49 @@ class GetFarmView(RetrieveAPIView):
         queryset = Farm.objects.get(pk=self.kwargs.get('pk'))
         return queryset
 
+
+class DistrictListView(ListAPIView):
+    permission_classes = ()
+    serializer_class = DistrictSerializer
+
+    def get_queryset(self):
+        queryset = District.objects.all()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
+
+
+class VillageListView(ListAPIView):
+    permission_classes = ()
+    serializer_class = VillageSerializer
+
+    def get_queryset(self):
+        queryset = Vilage.objects.all()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response({"status": "false"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({"data": serializer.data, "status": "true"}, status=status.HTTP_200_OK)
 
 # class GeoTagAddAPIView(CreateAPIView):
 #
