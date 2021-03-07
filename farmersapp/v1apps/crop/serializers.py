@@ -14,7 +14,7 @@ class CropActivitySerializer(serializers.ModelSerializer):
 
 class CropListSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'crop_name', 'harvest_days', 'acres', 'images')
+        fields = ('id', 'crop_name', 'harvest_days', 'acres', 'crop_image')
         model = Crop
 
 

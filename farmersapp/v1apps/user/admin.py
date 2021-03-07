@@ -45,13 +45,13 @@ class UserAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
+            'fields': ('username', 'password1', 'password2'),
         }),
     )
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('email', 'username', 'phone', 'is_staff')
+    list_display = ('username', 'email', 'phone', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email',)
     ordering = ('email',)
@@ -205,7 +205,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class TransactionSearch(admin.ModelAdmin):
     fieldsets = (
-        (_('Transaction info'), {'fields': ('user', 'date_of_transaction', 'amount', 'purpose',
+        (_('Transaction info'), {'fields': ('user', 'title', 'date_of_transaction', 'amount', 'purpose',
                                             'status')}),
         (None, {'fields': ()}),
     )

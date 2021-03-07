@@ -17,7 +17,7 @@ class User(AbstractUser):
     district = models.CharField(_('district'), max_length=30, blank=True)
     group_name = models.CharField(_('group name'), max_length=30, blank=True)
     location = models.CharField(_('location'), max_length=30, blank=True)
-    phone = models.CharField(blank=True, max_length=20, unique=True)
+    phone = models.CharField(blank=True, max_length=20, unique=True, null=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
     profile_images = models.ImageField(upload_to='uploads/profile-images', blank=True, null=True)
 
@@ -48,6 +48,7 @@ class Transaction(models.Model):
         ('credit', 'CREDIT'),
         ('debit', 'DEBIT'),
     )
+    title = models.CharField(_('Title'), max_length=30)
     user = models.ForeignKey(User, related_name='user_transaction', on_delete=models.CASCADE)
     date_of_transaction = models.DateField(_("Date"), default=datetime.date.today)
     amount = models.BigIntegerField()
