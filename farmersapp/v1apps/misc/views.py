@@ -45,16 +45,12 @@ class HomeView(ListAPIView):
         crop = self.serializer_class_Farm(crop_queryset, many=True)
         transaction = self.serializer_class_Transaction(transaction_queryset, many=True)
 
-        if farm_queryset or crop_queryset or transaction_queryset:
-            return Response({
-                "status": "true",
-                "weather_details": self.weather_details(),
-                "farms": crop.data,
-                "crops": farm.data,
-                "transactions": transaction.data,
-                "total_amount_received": self.total()
-            })
-        else:
-            return Response({
-                "status": "false"
-            })
+        # if farm_queryset or crop_queryset or transaction_queryset:
+        return Response({
+            "status": "true",
+            "weather_details": self.weather_details(),
+            "farms": crop.data,
+            "crops": farm.data,
+            "transactions": transaction.data,
+            "total_amount_received": self.total()
+        })
