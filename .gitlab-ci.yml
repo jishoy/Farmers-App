@@ -1,7 +1,6 @@
 image:alpine
-
 before_script:
-     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )
+     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
      - eval $(ssh-agent -s)
      - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
      - mkdir -p ~/.ssh
@@ -12,7 +11,7 @@ stages:
     -test
     -build
 
-server_ssh
+server_ssh:
      stage:test
      script:
         - ssh ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
