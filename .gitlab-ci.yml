@@ -15,5 +15,6 @@ stages:
 server_ssh
      stage:test
      script:
-         ssh
+        - ssh ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
+        - ls
 
