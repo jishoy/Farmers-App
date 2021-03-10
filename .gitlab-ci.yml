@@ -1,21 +1,17 @@
 image: alpine:latest
-
-before_script:
-  - apk add openssh-client
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
 server_ssh:
-     script:
-        - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
-        - ls
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
+    - ls
 pysetup:
       image: python:3.6
       script:
         - python --version
         - apt install python3-venv 
         - source venv/bin/activate
-
-
