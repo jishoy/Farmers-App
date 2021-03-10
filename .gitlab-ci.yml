@@ -11,7 +11,9 @@ server_ssh:
      script:
         - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
         - ls
-        - apt-get install python3-venv -y
+pysetup:
+  image:
+        - apk add install python3-venv 
         - source venv/bin/activate
 
 
