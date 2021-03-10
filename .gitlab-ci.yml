@@ -1,0 +1,16 @@
+image: alpine:latest
+
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+server_ssh:
+     script:
+        - ssh ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com
+        - ls
+
+
