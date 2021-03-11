@@ -1,5 +1,6 @@
-image: alpine:latest
+
 build:
+  image: alpine
   before_script:
     - apk add zip
   script:
@@ -14,6 +15,7 @@ build:
 
 
 server_ssh:
+  image: alpine
   before_script:
     - apk add openssh-client
     - eval $(ssh-agent -s)
