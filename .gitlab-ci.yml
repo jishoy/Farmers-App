@@ -7,12 +7,11 @@ server_ssh:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
-    - cd jishoys
-    - ll
-pysetup:
-      image: python:3.6
-      script:
-        - python --version
-        - apt install python3-venv 
-        - source venv/bin/activate
+    - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com "cd ~; touch test.txt"
+    
+#pysetup:
+#     image: python:3.6
+#      script:
+#        - python --version
+#        - apt install python3-venv 
+#       - source venv/bin/activate
