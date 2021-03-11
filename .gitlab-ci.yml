@@ -17,7 +17,7 @@ server_ssh:
     - chmod 700 ~/.ssh
   script:
     - ls
-    - scp -o StrictHostKeyChecking=no foo.txt ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
+    - scp -o StrictHostKeyChecking=no jishoy ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
     
     
 #pysetup:
