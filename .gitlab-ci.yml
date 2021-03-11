@@ -8,8 +8,7 @@ server_ssh:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh -o StrictHostKeyChecking=no  ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
-    - cd /home/ubuntu
-    - ls
+    - pwd
 pysetup:
       image: python:3.6
       script:
