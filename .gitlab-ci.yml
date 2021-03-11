@@ -1,20 +1,17 @@
-
 build:
   image: alpine
   before_script:
     - apk add zip
   script:
-    - mkdir jishoy
-    - touch jishoy/index.html
-    - echo "<h1>New deployment<h1>" >> jishoy/index.html
-    - zip -r jishoy.zip jishoy
+    - mkdir public
+    - touch public/index.html
+    - echo "<h1>New deployment<h1>" >> public/index.html
+    - zip -r public.zip public
   artifacts:
     paths:
-     -  jishoy.zip
+      - public.zip
 
-
-
-server_ssh:
+deploy:
   image: alpine
   before_script:
     - apk add openssh-client
@@ -23,12 +20,5 @@ server_ssh:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -o StrictHostKeyChecking=no jishoy.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
-    
-    
-#pysetup:
-#     image: python:3.6
-#      script:
-#        - python --version
-#        - apt install python3-venv 
-#       - source venv/bin/activate
+    - scp -o StrictHostKeyChecking=no public.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com "cd /home/bitnami/htdocs; touch foo.txt; unzip public.zip"
