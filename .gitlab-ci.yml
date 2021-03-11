@@ -1,10 +1,10 @@
 image: alpine:latest
 build:
   script:
-    - touch foo.txt
+    - mkdir jishoy
   artifacts:
     paths:
-     -  foo.txt
+     -  jishoy
 
 
 
