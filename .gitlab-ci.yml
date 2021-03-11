@@ -1,10 +1,15 @@
 image: alpine:latest
 build:
+  before_script:
+    - apk add zip
   script:
     - mkdir jishoy
+    - touch jishoy/index.html
+    - echo "<h1>New deployment<h1>" >> jishoy/index.html
+    - zip -r jishoy.zip jishoy
   artifacts:
     paths:
-     -  jishoy
+     -  jishoy.zip
 
 
 
@@ -16,8 +21,7 @@ server_ssh:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - ls
-    - scp -o StrictHostKeyChecking=no jishoy ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
+    - scp -o StrictHostKeyChecking=no jishoy.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
     
     
 #pysetup:
