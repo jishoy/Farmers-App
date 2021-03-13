@@ -1,15 +1,15 @@
-#build:
-#  image: alpine
-#  before_script:
-#    - apk add zip
-#  script:
-#    - mkdir public
-#    - touch public/index.html
-#    - echo "<h1>New deployment<h1>" >> public/index.html
-#    - zip -r public.zip public
-#  artifacts:
-#    paths:
-#      - public.zip
+build:
+  image: alpine
+  before_script:
+    - apk add zip
+  script:
+    - mkdir public
+    - touch public/index.html
+    - echo "<h1>New deployment<h1>" >> public/index.html
+    - zip -r public.zip public
+  artifacts:
+    paths:
+      - public.zip
 
 deploy:
   image: alpine
@@ -21,6 +21,6 @@ deploy:
     - chmod 700 ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
- #   - scp -o StrictHostKeyChecking=no public.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
+    - scp -o StrictHostKeyChecking=no public.zip ubuntu@34.222.26.89:/home/ubuntu
     - ssh  ubuntu@34.222.26.89 
     - ls
