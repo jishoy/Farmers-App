@@ -25,5 +25,5 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
  #   - scp -o StrictHostKeyChecking=no public.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
-    - ssh -i ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
+    - ssh ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
     - ls
