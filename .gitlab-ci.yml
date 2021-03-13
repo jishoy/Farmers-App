@@ -9,7 +9,7 @@ build:
     - zip -r public.zip public
   artifacts:
     paths:
-      - public.zip
+      - public.zip/
 
 deploy:
   image: alpine
