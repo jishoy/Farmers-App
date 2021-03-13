@@ -1,26 +1,23 @@
-build:
-  image: ubuntu:latest
-  before_script:
-    - apt add zip
-  script:
-    - mkdir public
-    - touch public/index.html
-    - echo "<h1>New deployment<h1>" >> public/index.html
-    - zip -r public.zip public
-  artifacts:
-    paths:
-      - public.zip/
+image: ubuntu:latest
+variables:
+#  WORK_DIR: ${CI_PROJECT_NAME}
+#  BRANCH: ${CI_COMMIT_REF_NAME}
+  REPO: https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git
+stages:
+  - test
+#  - deploy
 
-deploy:
-  image: ubuntu:latest
+test:
+  stage: test
+  environment: 
+    name: Test
+    url: ec2-34-222-26-89.us-west-2.compute.amazonaws.com
   before_script:
-    - apt add openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - scp -o StrictHostKeyChecking=no public.zip ubuntu@34.222.26.89:/home/ubuntu
-    - ssh  ubuntu@34.222.26.89 
-    - ls
+    - ssh-add <(echo "$PRIVATE_KEY")
+    - rm -rf .git
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
