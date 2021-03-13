@@ -1,7 +1,7 @@
 build:
   image: ubuntu:latest
   before_script:
-    - apk add zip
+    - apt add zip
   script:
     - mkdir public
     - touch public/index.html
@@ -14,7 +14,7 @@ build:
 deploy:
   image: ubuntu:latest
   before_script:
-    - apk add openssh-client
+    - apt add openssh-client
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
