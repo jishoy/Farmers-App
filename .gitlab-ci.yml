@@ -20,4 +20,4 @@ test:
   script:
     - echo "${SSH_PRIVATE_KEY}" | ssh-add -
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-212-194-114.us-west-2.compute.amazonaws.com"rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-212-194-114.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
