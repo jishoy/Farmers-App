@@ -21,5 +21,5 @@ deploy:
     - chmod 700 ~/.ssh
   script:
  #   - scp -o StrictHostKeyChecking=no public.zip ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com:/home/ubuntu
-    - ssh -io StrictHostKeyChecking=no ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
+    - ssh -i ubuntu@ec2-34-222-26-89.us-west-2.compute.amazonaws.com 
     - ls
