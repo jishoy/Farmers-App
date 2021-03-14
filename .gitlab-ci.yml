@@ -11,7 +11,7 @@ test:
   stage: test
   environment: 
     name: Test
-    url: ec2-54-212-194-114.us-west-2.compute.amazonaws.com
+    url: ec2-52-41-201-114.us-west-2.compute.amazonaws.com
   before_script:
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - mkdir -p ~/.ssh
@@ -20,4 +20,4 @@ test:
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-212-194-114.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-41-201-114.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
