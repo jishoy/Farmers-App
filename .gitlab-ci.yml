@@ -9,15 +9,19 @@ stages:
 
 test:
   stage: test
-  environment: 
-    name: Test
-    url: ec2-52-41-201-114.us-west-2.compute.amazonaws.com
+  #environment: 
+  #  name: Test
+  #  url: ec2-34-221-196-124.us-west-2.compute.amazonaws.com
   before_script:
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - mkdir -p ~/.ssh
   - eval $(ssh-agent -s)
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan ec2-34-221-196-124.us-west-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+ # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo "${SSH_PRIVATE_KEY}" | ssh-add -
+  #  - ssh-add <(echo "$PRIVATE_KEY")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-41-201-114.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
+    - ssh -o StrictHostKeyChecking=no ubuntu@ec2-34-221-196-124.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
