@@ -1,4 +1,4 @@
-#image: alpine
+image: ubuntu:latest
 before_script:
    - apt-get update -qq
    - apt-get install -qq git
@@ -18,6 +18,6 @@ server_ssh:
           name: staging
           url: ec2-34-221-196-124.us-west-2.compute.amazonaws.com
      script:
-        - ssh jishoy@ec2-34-221-196-124.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
+        - ssh jishoy@ec2-34-221-196-124.us-west-2.compute.amazonaws.com "git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
         - pwd
         - locate gitlab-cicd-tutorial.git
