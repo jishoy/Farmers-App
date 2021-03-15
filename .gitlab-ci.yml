@@ -19,5 +19,5 @@ server_ssh:
           url: ec2-34-221-196-124.us-west-2.compute.amazonaws.com
      script:
         - ssh jishoy@ec2-34-221-196-124.us-west-2.compute.amazonaws.com " git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
-        - cd gitlab-cicd-tutorial/
+        - cd gitlab-cicd-tutorial
         - ls
