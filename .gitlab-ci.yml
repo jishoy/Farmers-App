@@ -1,27 +1,21 @@
-image: ubuntu:latest
-variables:
-#  WORK_DIR: ${CI_PROJECT_NAME}
-#  BRANCH: ${CI_COMMIT_REF_NAME}
-  REPO: https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git
-stages:
-  - test
-#  - deploy
+image: alpine
+before_script:
+     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+     - eval $(ssh-agent -s)
+     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+     - mkdir -p ~/.ssh
+     - mkdir -p ~/.ssh
+     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
-test:
-  stage: test
-  #environment: 
-  #  name: Test
-  #  url: ec2-34-221-196-124.us-west-2.compute.amazonaws.com
-  before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan ec2-34-221-196-124.us-west-2.compute.amazonaws.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
- # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  script:
-  #  - ssh-add <(echo "$PRIVATE_KEY")
-    - rm -rf .git
-    - ssh  ubuntu@ec2-34-221-196-124.us-west-2.compute.amazonaws.com "rm -rf ~/${WORK_DIR}; mkdir ~/${WORK_DIR}; git init; git clone ${REPO};"
+stages:
+    - test
+#    - build
+
+server_ssh:
+     stage: test
+     environment:
+          name: staging
+          url: ec2-34-221-196-124.us-west-2.compute.amazonaws.com
+     script:
+        - ssh jishoy@ec2-34-221-196-124.us-west-2.compute.amazonaws.com " git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
+        - ls
