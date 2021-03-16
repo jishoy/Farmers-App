@@ -19,5 +19,5 @@ server_ssh:
      script:
         - ssh ubuntu@ec2-54-203-10-122.us-west-2.compute.amazonaws.com "git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
         - pwd
-        - cd 
-        - ls
+        - cd  
+        - pwd
