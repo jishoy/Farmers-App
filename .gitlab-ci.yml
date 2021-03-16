@@ -17,7 +17,7 @@ server_ssh:
           name: staging
           url: ec2-54-203-10-122.us-west-2.compute.amazonaws.com
      script:
-        - ssh ubuntu@ec2-54-203-10-122.us-west-2.compute.amazonaws.com "git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
+        - ssh ubuntu@ec2-54-203-10-122.us-west-2.compute.amazonaws.com "cd jishoy/ ;git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
         - pwd
         - cd  
-        - gitlab-cicd-tutorial
+        
