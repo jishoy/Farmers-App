@@ -1,7 +1,7 @@
 image: ubuntu
 before_script:
   # Setup SSH deploy keys
-   - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
    - eval $(ssh-agent -s)
    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
    - mkdir -p ~/.ssh
