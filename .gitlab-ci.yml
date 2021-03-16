@@ -20,4 +20,5 @@ server_ssh:
      script:
         - ssh jishoy@ec2-34-221-196-124.us-west-2.compute.amazonaws.com "git init; git clone https://gitlab.com/johandurancerdas/gitlab-cicd-tutorial.git "
         - pwd
-        - cd gitlab-cicd-tutorial.git
+        - cd 
+        - ls
