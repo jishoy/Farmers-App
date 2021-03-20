@@ -91,11 +91,11 @@ WSGI_APPLICATION = 'farmersapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'farmer_new',
-        'USER': 'user',
-        'PASSWORD': '',
-        'HOST': '',   # Or an IP Address that your DB is hosted on
-        'PORT': '',
+        'NAME': 'jishoy',
+        'USER': 'jishoy',
+        'PASSWORD': 'jishoy123#',
+        'HOST': 'jishoy.cg4ldk4vtrof.us-west-2.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
