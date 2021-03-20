@@ -17,7 +17,7 @@ server_ssh:
           name: staging
           url: ec2-34-213-177-214.us-west-2.compute.amazonaws.com
      script:
-        - ssh ubuntu@ec2-34-213-177-214.us-west-2.compute.amazonaws.com "cd jishoy/ ; rm -r *; git clone https://github.com/gouthz/farmers-app.git" 
+        - ssh ubuntu@ec2-34-213-177-214.us-west-2.compute.amazonaws.com "cd jishoy/ ; rm -r *; git clone https://gouthz:Gouthz@123@github.com/gouthz/farmers-app.git" 
         - pwd
         - cd  
         
