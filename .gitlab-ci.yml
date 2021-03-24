@@ -17,7 +17,7 @@ server_ssh:
           name: staging
           url: ec2-34-213-177-214.us-west-2.compute.amazonaws.com
      script:
-        - ssh ubuntu@ec2-34-213-177-214.us-west-2.compute.amazonaws.com "cd jishoy/ ; rm -rf *; git clone git@gitlab.com:jishoysajan/farmers-app.git;cd; source env/bin/activate ; cd farmers-app; pip3 install -r requirements.txt; cd ~/jishoy/farmers-app/farmersapp ; python manage.py migrate;pkill gunicorn ; sudo systemctl daemon-reload; sudo systemctl start gunicorn " 
+        - ssh ubuntu@ec2-34-213-177-214.us-west-2.compute.amazonaws.com "cd jishoy/farmers-app/; git pull origin develop ;cd; source env/bin/activate ; cd jishoy/farmers-app; pip3 install -r requirements.txt; cd ~/jishoy/farmers-app/farmersapp ; python manage.py migrate;pkill gunicorn ; sudo systemctl daemon-reload; sudo systemctl start gunicorn ;" 
         - pwd
         - cd  
         
